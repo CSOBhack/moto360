@@ -40,5 +40,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.google.android.gms:play-services:6.5.87'
 
-    compile 'org.springframework.android:spring-android-rest-template:2.0.0.M1'
+    compile 'org.springframework.android:spring-android-rest-template:2.0.0.M2'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
 }

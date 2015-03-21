@@ -25,7 +25,7 @@ public class HackClient {
         // Make the HTTP GET request, marshaling the response from JSON to an array of Events
         Embedded embededs = restTemplate.getForObject(url, Embedded.class);
 
-        News[] out = embededs.get_embedded();
+        News[] out = embededs.get_embedded().getNews();
 
         return out;
     }

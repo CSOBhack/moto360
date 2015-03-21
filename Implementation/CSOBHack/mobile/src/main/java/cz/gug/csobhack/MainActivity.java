@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
 
         // Create a NotificationCompat.Builder to build a standard notification
         // then extend it with the WearableExtender
-        Notification notif = new NotificationCompat.Builder(getApplicationContext())
+        final Notification notif = new NotificationCompat.Builder(getApplicationContext())
                 .setContentTitle("Title")
                 .setContentText("Text")
                 .setSmallIcon(R.drawable.ic_drawer)
@@ -42,6 +42,15 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
 //                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
 //                startActivity(i);
+                News[] news = HackClient.getNews();
+                News news1 = news[0];
+
+
+                final Notification notif = new NotificationCompat.Builder(getApplicationContext())
+                        .setContentTitle(news1.getHeadline())
+                        .setContentText(news1.getContent())
+                        .setSmallIcon(R.drawable.ic_drawer)
+                        .extend(wearableExtender).build();
 
 
 

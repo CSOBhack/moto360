@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 public class HackClient {
     static String url = "http://csob-hackathon.herokuapp.com:80/api/v1/news.json";
 
-    public static News[] getNews() {
+    public static News[] getNews2() {
         // Create a new RestTemplate instance
         RestTemplate restTemplate = new RestTemplate();
 
@@ -16,6 +16,18 @@ public class HackClient {
         News[] news = restTemplate.getForObject(url, News[].class);
 
         return news;
+    }
+
+    public static News[] getNews() {
+        // Create a new RestTemplate instance
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Make the HTTP GET request, marshaling the response from JSON to an array of Events
+        Embedded embededs = restTemplate.getForObject(url, Embedded.class);
+
+        News[] out = embededs.get_embedded();
+
+        return out;
     }
 
 }

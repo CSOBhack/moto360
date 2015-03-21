@@ -3,6 +3,7 @@ package cz.gug.csobhack;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
     private NotificationCompat.WearableExtender wearableExtender;
+    private News[] news;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +44,8 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
 //                Intent i = new Intent(getApplicationContext(), MapsActivity.class);
 //                startActivity(i);
-                News[] news = HackClient.getNews();
-                News news1 = news[0];
+                downloadNews();
 
-
-                final Notification notif = new NotificationCompat.Builder(getApplicationContext())
-                        .setContentTitle(news1.getHeadline())
-                        .setContentText(news1.getContent())
-                        .setSmallIcon(R.drawable.ic_drawer)
-                        .extend(wearableExtender).build();
 
 
 
@@ -59,6 +54,23 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    private void downloadNews(){
+        try{
+            new MyDownloadTask().execute();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+    }
+
+    private void updateUI(){
+        News news1 = news[0];
+        final Notification notif = new NotificationCompat.Builder(getApplicationContext())
+                .setContentTitle(news1.getHeadline())
+                .setContentText(news1.getContent())
+                .setSmallIcon(R.drawable.ic_drawer)
+                .extend(wearableExtender).build();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -81,4 +93,30 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private class MyDownloadTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                news = HackClient.getNews();
+            } catch (Exception ex){
+                ex.printStackTrace();
+            }
+            return "OK";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateUI();
+                }
+            });
+
+        }
+    }
+
 }

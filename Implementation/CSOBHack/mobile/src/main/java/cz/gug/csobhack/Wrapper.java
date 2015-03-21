@@ -1,16 +1,18 @@
 package cz.gug.csobhack;
 
+import java.util.List;
+
 /**
  * Created by me3x on 21/03/15.
  */
 public class Wrapper {
-    News[] news;
+    List<News> news;
 
-    public News[] getNews() {
+    public List<News> getNews() {
         return news;
     }
 
-    public void setNews(News[] news) {
+    public void setNews(List<News> news) {
         this.news = news;
     }
 }

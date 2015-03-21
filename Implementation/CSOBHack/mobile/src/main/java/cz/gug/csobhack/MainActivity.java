@@ -14,10 +14,12 @@ import android.support.v4.app.NotificationCompat.WearableExtender;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.List;
+
 
 public class MainActivity extends ActionBarActivity {
     private NotificationCompat.WearableExtender wearableExtender;
-    private News[] news;
+    private List<News> news;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +66,13 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void updateUI(){
-        News news1 = news[0];
+        News news1 = news.get(news.size()-1);
         final Notification notif = new NotificationCompat.Builder(getApplicationContext())
                 .setContentTitle(news1.getHeadline())
                 .setContentText(news1.getContent())
                 .setSmallIcon(R.drawable.ic_drawer)
                 .extend(wearableExtender).build();
+        NotificationManagerCompat.from(getApplicationContext()).notify(0, notif);
     }
 
     @Override
